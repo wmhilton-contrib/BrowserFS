@@ -177,8 +177,7 @@ export class SimpleSyncRWTransaction implements SyncKeyValueRWTransaction {
 
   public abort(): void {
     // Rollback old values.
-    for (let i = 0; i < this.modifiedKeys.length; i++) {
-      const key = this.modifiedKeys[i];
+    for (const key of this.modifiedKeys) {
       const value = this.originalData[key];
       if (!value) {
         // Key didn't exist.
@@ -673,8 +672,7 @@ export interface AsyncKeyValueRWTransaction extends AsyncKeyValueROTransaction {
    * @param cb Triggered with an error and whether or not the value was
    *   committed.
    */
-  put(key: string, data: Buffer, overwrite: boolean, cb: (e: ApiError,
-    committed?: boolean) => void): void;
+  put(key: string, data: Buffer, overwrite: boolean, cb: BFSCallback<boolean>): void;
   /**
    * Deletes the data at the given key.
    * @param key The key to delete from the store.
